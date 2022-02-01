@@ -22,3 +22,4 @@ Route.get("/", () => {
 Route.get("home", "StudentController.home");
 
 Route.get("majors", "StudentController.getAllMajors");
+Route.post("student/studentdata", "StudentController.addStudentData");
