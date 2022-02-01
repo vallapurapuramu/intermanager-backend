@@ -11,6 +11,26 @@ This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.
 7. Lucid ORM
 8. Migrations and seeds
 
+
+## .env
+
+```
+HOST=127.0.0.1
+PORT=3333
+NODE_ENV=development
+APP_URL=http://${HOST}:${PORT}
+CACHE_VIEWS=false
+APP_KEY=qbQxRMmjUZxP6CeDvccSpiIPRbYKm4lB
+DB_CONNECTION=sqlite
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=
+DB_DATABASE=Gdp_intermanager
+SESSION_DRIVER=cookie
+HASH_DRIVER=bcrypt
+```
+
 ## Setup
 
 Use the adonis command to install the blueprint
