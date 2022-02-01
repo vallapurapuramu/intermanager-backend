@@ -17,7 +17,23 @@ class StudentController {
           message: "user home screen",
         });
     }
-      
+  
+    async getAllMajors({ params, auth, request, response }) {
+      var category = params.category;
+      //const majorsList = await Major.query().where("category", category).fetch();
+      const majorsList = await Major.all();
+      if (majorsList == null) {
+        logger.error("StudentController-getAllMajors, Majors not found");
+        return response.status(404).json({
+          message: "Majors not found",
+        });
+      }
+      logger.debug(
+        "StudentController-getAllMajors, Succesfully retrived majorsList"
+      );
+  
+      return response.json(majorsList);
+    }
 }
 
 module.exports = StudentController

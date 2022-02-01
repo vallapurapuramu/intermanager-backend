@@ -21,3 +21,4 @@ Route.get("/", () => {
 });
 Route.get("home", "StudentController.home");
 
+Route.get("majors", "StudentController.getAllMajors");
