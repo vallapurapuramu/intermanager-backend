@@ -15,11 +15,8 @@ class AdminController {
     logger.debug("Admin-getAllAdmins, Succesfully retrived adminsList");
     return response.json(adminsList);
   }
-}
 
-module.exports = AdminController
-
-async getAllApplications({ auth, request, response }) {
+  async getAllApplications({ auth, request, response }) {
   const applicationsList = await Application.query()
     .with("users")
     .with("internship")
@@ -41,3 +38,8 @@ async getAllApplications({ auth, request, response }) {
   );
   return response.json(applicationsList);
 }
+
+}
+
+module.exports = AdminController
+
