@@ -39,6 +39,27 @@ class AdminController {
   return response.json(applicationsList);
 }
 
+async deleteAdmin({ params, response }) {
+  const admin = await User.find(params.adminId);
+  // const admin = await User.query()
+  // .where("role", "=", "admin")
+  // .where("id","=",params.adminId)
+  // .fetch();
+
+  if (!admin) {
+    return response.notFound({
+      status: 404,
+      message: "Admin not found",
+    });
+  } else {
+    await admin.delete();
+  }
+  return response.ok({
+    status: 200,
+    message: "Admin deleted successfully",
+  });
+}
+
 }
 
 module.exports = AdminController
