@@ -58,6 +58,30 @@ class StudentController {
         return response.status(200).json("students successfully added");
       }
     }
+
+    async addStudentData({ auth, request, response }) {
+      let studentData = request.post();
+      let oldData = await StudentDetails.query()
+        .where("studentId", studentData.studentId)
+        .fetch();
+  
+      if (oldData.rows.length == 0) {
+        try {
+          studentData = await StudentDetails.create(studentData);
+        } catch (err) {
+          logger.error(err);
+        }
+        return response.ok(studentData);
+      } else {
+        oldData = await StudentDetails.find(oldData.rows[0].id);
+        oldData = _.merge(oldData, studentData);
+        await oldData.save();
+        logger.debug(
+          "StudentController-updateStudentDetails, Succesfully updated student"
+        );
+        return response.status(200).json("students successfully added");
+      }
+    }
 }
 
 module.exports = StudentController

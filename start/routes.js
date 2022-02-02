@@ -26,3 +26,4 @@ Route.post("student/studentdata", "StudentController.addStudentData");
 Route.get("admins", "AdminController.getAllAdmins");
 Route.get("applications", "AdminController.getAllApplications");
 Route.delete("admins/:adminId", "AdminController.deleteAdmin");
+Route.post("student/studentdata", "StudentController.addStudentData");
