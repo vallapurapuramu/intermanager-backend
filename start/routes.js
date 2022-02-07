@@ -32,3 +32,4 @@ Route.get("applications/:id", "FacultyController.getInternshipData");
 
 
 Route.get("student/applications/:studentId","StudentController.getInternshipData");
+Route.patch( "student/updateapplicationdata/:id", "StudentController.updateInternshipApplication" );
