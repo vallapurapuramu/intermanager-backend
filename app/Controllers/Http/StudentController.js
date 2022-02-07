@@ -218,8 +218,121 @@ class StudentController {
 
       return response.json(applicationData);
     } catch (err) {
-    logger.error(err);    }
+    logger.error(err);    
   }
+}
+
+async updateInternshipApplication({ auth, request, response, params }) {
+  var id = params.id;
+  let internshipData = request.post();
+  var applicationData = await Application.find(id);
+  var intershipDetails = await Internship.find(applicationData.internshipId);
+  let facultyInfo = await usersUtil.getUserSearch(internshipData.facultyId);
+  if (!applicationData) {
+    return response.badRequest({
+      error: {
+        status: 401,
+        message: " There is no application with is given id",
+      },
+    });
+  }
+  if (!intershipDetails) {
+    return response.badRequest({
+      error: {
+        status: 401,
+        message: "There is no intership with given id",
+      },
+    });
+  }
+
+  if (!facultyInfo) {
+    return response.badRequest({
+      error: {
+        status: 401,
+        message:
+          "Faculty with email " + internshipData.facultyEmail + "don't exist",
+      },
+    });
+  }
+  // let facultyDetails = {};
+
+  applicationData.applicationStatus = internshipData.applicationStatus;
+  applicationData.applicationDate = internshipData.applicationDate;
+  applicationData.approvedBy = internshipData.approvedBy;
+  applicationData.comments = internshipData.comments;
+  // applicationData.satrtDate = internshipData.startDate;
+  applicationData.startDate = internshipData.startDate;
+  applicationData.endDate = internshipData.endDate;
+  applicationData.pushNotification = internshipData.pushNotification;
+  // applicationData.studentId = internshipData.studentId;
+  applicationData.studentId = internshipData.studentId;
+
+  applicationData.facultyId = internshipData.facultyId;
+  applicationData.createdBy = auth.user.id;
+  applicationData.updatedBy = auth.user.id;
+  // intershipDetails.id =  1;
+  intershipDetails.employerName = internshipData.employerName;
+  intershipDetails.primaryContactName = internshipData.primaryContactName;
+  intershipDetails.email = internshipData.email;
+  intershipDetails.duration = internshipData.duration;
+  intershipDetails.employerContact = internshipData.employerContact;
+  intershipDetails.addressLine1 = internshipData.addressLine1;
+  intershipDetails.addressLine2 = internshipData.addressLine2;
+  intershipDetails.city = internshipData.city;
+  intershipDetails.state = internshipData.state;
+  intershipDetails.zipCode = internshipData.zipCode;
+
+  // const trx = await Database.transaction();
+  try {
+    await intershipDetails.save();
+  } catch (err) {
+logger.error(err);
+
+  }
+
+  try {
+    await applicationData.save();
+    id = applicationData.id + "";
+    var len = 6 - id.length;
+    id = "APPNO" + "0".repeat(len) + id;
+    const profilePic = request.file("offerletter", {
+      maxSize: "5mb",
+      allowedExtensions: ["pdf"],
+    });
+
+    
+    await profilePic.move(Helpers.viewsPath("public/"), {
+      name: applicationData.studentId + "_" + id + ".pdf",
+      overwrite: true,
+    });
+
+    if (!profilePic.moved()) {
+      return profilePic.error();
+    }
+
+    await mail.send(
+      `updateconfirmation.edge`,
+      {
+        firstname: auth.user.firstname,
+        lastname: auth.user.lastname,
+        applicationId: applicationData.applicationreferenceId,
+        status: applicationData.applicationStatus,
+      },
+      (message) => {
+        message
+          .to(auth.user.email)
+          .cc(coordinatorEmail)
+          .from(env.get("MAIL_USERNAME"))
+          .subject("Alert! Intership aplication Registartion");
+      }
+    );
+
+    return response.json(applicationData);
+  } catch (err) {
+logger.error(err)    }
+
+  // const savepoint = await trx.transaction();
+}
 }
 
 module.exports = StudentController
