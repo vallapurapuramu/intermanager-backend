@@ -276,6 +276,48 @@ class StudentController {
     );
     return response.json(applicationDetails);
   }
+
+  async deleteInternshipApplication({ auth, request, response, params }) {
+    //Checking if the user has authorization
+    if (auth.user.role != "faculty" && auth.user.role != "admin") {
+      return response.status(401).json({
+        message: "You don't have permission",
+      });
+    } else {
+      //Deleting the application
+      const comment = await Comment.query()
+        .where("applicationId", params.id)
+        .delete()
+        .then((response) => {
+          return response.status(200).json({ message: "Comments deleted" });
+        })
+        .catch((err) => {
+          return err;
+        });
+
+      const application = await Application.query()
+        .where("id", params.id)
+        .delete()
+        .then((response) => {
+          return response.status(200).json({ message: "Application deleted" });
+        })
+        .catch((err) => {
+          return err;
+        });
+
+      const internship = await Internship.query()
+        .where("id", params.id)
+        .delete()
+        .then((response) => {
+          return response.status(200).json({ message: "Internship deleted" });
+        })
+        .catch((err) => {
+          return err;
+        });
+
+      return [application, internship];
+    }
+  }
 }
 
 module.exports = StudentController
