@@ -220,6 +220,34 @@ class StudentController {
     } catch (err) {
     logger.error(err);    }
   }
+
+  async getInternshipData({ params, auth, request, response }) {
+    const applicationDetails = await Application.query()
+      .where("studentId", "=", params.studentId)
+      .with("users")
+      .with("internship")
+      .with("student_details")
+      .fetch();
+    if (applicationDetails == null) {
+      logger.error("StudentController-getAllMajors, Majors not found");
+      return response.status(404).json({
+        message: "Majors not found",
+      });
+    }
+    if (applicationDetails.rows) {
+      for (let i = 0; i < applicationDetails.rows.length; i++) {
+        applicationDetails.rows[i].filename =
+          applicationDetails.rows[i].studentId +
+          "_" +
+          applicationDetails.rows[i].applicationreferenceId +
+          ".pdf";
+      }
+    }
+    logger.debug(
+      "StudentController-getAllMajors, Succesfully retrived majorsList"
+    );
+    return response.json(applicationDetails);
+  }
 }
 
 module.exports = StudentController
