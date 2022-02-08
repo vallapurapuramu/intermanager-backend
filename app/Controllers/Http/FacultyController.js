@@ -37,6 +37,66 @@ class FacultyController {
     return response.json(applicationDetails);
   }
 
+  async updateApplicationStatus({ params, auth, request, response }) {
+    let applicationStatusData = request.post();
+
+    let applicationData = await Application.find(params.id);
+    if (!applicationData) {
+      logger.error("updateApplicationDetils, Application not found");
+      return response.status(404).json({
+        error: {
+          status: 404,
+          message: "Student not found",
+        },
+      });
+    }
+
+    applicationStatusData = _.merge(applicationData, applicationStatusData);
+
+    await applicationStatusData.save();
+    logger.debug(
+      "FacultyController-updateApplicationStatus, Succesfully updated Application"
+    );
+    return response.status(200).json("Application successfully updated");
+  }
+  async postComments({ auth, params, request, response }) {
+    let Data = request.post();
+
+    let applicationData = await Application.find(Data.applicationId);
+    if (!applicationData) {
+      logger.error("updateApplicationDetils, Application not found");
+      return response.status(404).json({
+        error: {
+          status: 404,
+          message: "application not found",
+        },
+      });
+    }
+    let commentsData = {};
+    commentsData.applicationId = Data.applicationId;
+    commentsData.comments = Data.comments;
+    let commentres = await Comments.create(commentsData);
+    let semail = await Users.find(applicationData.studentId);
+
+    await mail.send(
+      `aboutcomments.edge`,
+      {
+        firstname: auth.user.firstname,
+        lastname: auth.user.lastname,
+        applicationId: applicationData.applicationreferenceId,
+        status: applicationData.applicationStatus,
+      },
+      (message) => {
+        message
+          .to(semail.email)
+          .from(env.get("MAIL_USERNAME"))
+          .subject("Alert! Intership aplication Updating comments");
+      }
+    );
+    return commentres;
+  }
+
+
 }
 
 module.exports = FacultyController
