@@ -318,6 +318,24 @@ class StudentController {
       return [application, internship];
     }
   }
+  async getPersonalDetails({ params, auth, request, response }) {
+    const studentDetails = await User.query()
+      .with("student_details")
+      .where("id", "=", params.studentId)
+      .fetch();
+
+    if (studentDetails == null) {
+      logger.error("StudentController-getAllMajors, Majors not found");
+      return response.status(404).json({
+        message: "Majors not found",
+      });
+    }
+
+    logger.debug(
+      "StudentController-getAllMajors, Succesfully retrived majorsList"
+    );
+    return response.json(studentDetails);
+  }
 }
 
 module.exports = StudentController
