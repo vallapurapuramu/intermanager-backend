@@ -37,3 +37,4 @@ Route.delete("student/deleteapplicationdata/:id","StudentController.deleteIntern
 Route.get("student/personalDetails/:studentId","StudentController.getPersonalDetails" );
 Route.patch("student/updateInternshipAgreement","StudentController.updateInternshipAgreement");
 Route.patch("update-applications-status/:id","FacultyController.updateApplicationStatus");
+Route.get("student/comments/:applicationId", "FacultyController.getComments");

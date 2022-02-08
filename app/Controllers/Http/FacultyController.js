@@ -96,7 +96,23 @@ class FacultyController {
     return commentres;
   }
 
+  async getComments({ auth, params, request, response }) {
+    const applicationcommentDetails = await Application.query()
+      .where("id", "=", params.applicationId)
+      .with("comments")
+      .fetch();
+    if (applicationcommentDetails == null) {
+      logger.error("StudentController-getAllMajors, Majors not found");
+      return response.status(404).json({
+        message: "Majors not found",
+      });
+    }
 
+    logger.debug(
+      "StudentController-getAllMajors, Succesfully retrived majorsList"
+    );
+    return response.json(applicationcommentDetails);
+  }
 }
 
 module.exports = FacultyController
