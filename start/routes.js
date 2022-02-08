@@ -41,3 +41,4 @@ Route.get("student/comments/:applicationId", "FacultyController.getComments");
 Route.post("student/comments", "FacultyController.postComments");
 Route.get("verifyfaculty/:id", "FacultyController.getFaculty");
 Route.post("faculty/addFaculty/:id","FacultyController.addFaculty");
+Route.get("application/:id", "StudentController.getResume");

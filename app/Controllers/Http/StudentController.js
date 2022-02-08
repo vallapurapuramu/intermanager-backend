@@ -352,6 +352,33 @@ class StudentController {
       message: "Success",
     });
   }
+  async getResume({params, auth, request, response}){
+    if (auth.user.role != "faculty" && auth.user.role != "admin") {
+      return response.status(401).json({
+          message: 'You don\'t have permission'
+      })
+    } else {
+      let path = process.cwd() + '\\resources\\views\\public' 
+      let documents = fs.readdirSync(path,  (err, files) => {
+        if (err) {
+          console.log(err);
+          return err;
+        }else{
+          return files
+        }
+      });
+      try 
+      {let filename = documents.find(doc => doc.includes(params.id))
+      let file = path + '\\' + filename
+      // var filename = path.basename(file);
+      // var mimetype = mime.lookup(file);
+      response.header('Content-disposition', 'attachment; filename=' + filename);
+      response.header('Content-type', 'application/pdf');
+      response.download(file)
+      } catch(err){console.log(err)}
+    }
+
+  }
 }
 
 module.exports = StudentController
