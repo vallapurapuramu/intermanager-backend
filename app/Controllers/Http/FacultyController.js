@@ -150,6 +150,15 @@ class FacultyController {
     );
     return commentres;
   }
+
+  async getFaculty({ auth, request, params, response }) {
+    try {
+      let faculty = await User.query().where("id", params.id).fetch();
+      return response.json(faculty);
+    } catch (error) {
+      logger.error(error);
+    }
+  }
 }
 
 module.exports = FacultyController
