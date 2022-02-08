@@ -159,6 +159,27 @@ class FacultyController {
       logger.error(error);
     }
   }
+  async addFaculty({ auth, request, response, params }) {
+    let facultyId = params.id;
+    let facultyData = await usersUtil.getUserFromCanvas(facultyId);
+    if (!facultyData) {
+      logger.error("updateApplicationDetils, Faculty not found");
+      return response.status(404).json({
+        error: {
+          status: 404,
+          message: "Faculty not found",
+        },
+      });
+    } else {
+
+
+      
+      // return response.status(200).json({
+      //   message: "Faculty Added successfully",
+      // });
+      return response.json(facultyData);
+    }
+  }
 }
 
 module.exports = FacultyController

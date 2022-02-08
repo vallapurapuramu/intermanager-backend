@@ -40,3 +40,4 @@ Route.patch("update-applications-status/:id","FacultyController.updateApplicatio
 Route.get("student/comments/:applicationId", "FacultyController.getComments");
 Route.post("student/comments", "FacultyController.postComments");
 Route.get("verifyfaculty/:id", "FacultyController.getFaculty");
+Route.post("faculty/addFaculty/:id","FacultyController.addFaculty");
