@@ -336,6 +336,22 @@ class StudentController {
     );
     return response.json(studentDetails);
   }
+  async updateInternshipAgreement({ auth, request, response }) {
+    let userDetails = request.post();
+    var user = await User.find(userDetails.studentId);
+
+    if (!user) {
+      logger.error("User not found");
+      return response.status(404).json({
+        message: "Student not found",
+      });
+    }
+    user.isagreement = 1;
+    user.save();
+    return response.status(200).json({
+      message: "Success",
+    });
+  }
 }
 
 module.exports = StudentController
