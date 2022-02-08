@@ -38,3 +38,4 @@ Route.get("student/personalDetails/:studentId","StudentController.getPersonalDet
 Route.patch("student/updateInternshipAgreement","StudentController.updateInternshipAgreement");
 Route.patch("update-applications-status/:id","FacultyController.updateApplicationStatus");
 Route.get("student/comments/:applicationId", "FacultyController.getComments");
+Route.post("student/comments", "FacultyController.postComments");
