@@ -1,4 +1,45 @@
 'use strict'
+const fs = use("fs");
+const got = use("got");
+const _ = use("lodash");
+const util = use("util");
+const winston = require("winston");
+const logConfiguration = {
+  transports: [
+    new winston.transports.File({
+      filename: "logs/application.log",
+    }),
+  ],
+  format: winston.format.combine(
+    winston.format.timestamp({
+      format: "MMM-DD-YYYY HH:mm:ss",
+    }),
+    winston.format.printf(
+      (info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
+    )
+  ),
+};
+const logger = winston.createLogger(logConfiguration);
+
+const Helpers = use("Helpers");
+const config = use("Config");
+const Major = use("App/Models/Major");
+const StudentDetails = use("App/Models/StudentDetails");
+const mail = use("Mail");
+const Internship = use("App/Models/Internship");
+const Application = use("App/Models/Application");
+const User = use("App/Models/User");
+const Env = use("Env");
+const adminToken = Env.get("ADMIN_TOKEN");
+const Comments = use("App/Models/Comments");
+const Users = use("App/Models/User");
+const helpers = use("Helpers");
+const env = use("Env");
+const appRoot = helpers.appRoot();
+const usersUtil = require(appRoot + "/app/utils/users.js");
+
+const Database = use("Database");
+
 
 class FacultyController {
     async getInternshipData({ params, auth, request, response }) {

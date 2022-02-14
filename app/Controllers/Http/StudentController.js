@@ -1,4 +1,28 @@
 'use strict'
+const fs = use("fs");
+const got = use("got");
+const _ = use("lodash");
+const util = use("util");
+const winston = require("winston");
+const logConfiguration = {
+  transports: [
+    new winston.transports.File({
+      filename: "logs/application.log",
+    }),
+  ],
+  format: winston.format.combine(
+    winston.format.timestamp({
+      format: "MMM-DD-YYYY HH:mm:ss",
+    }),
+    winston.format.printf(
+      (info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
+    )
+  ),
+};
+const logger = winston.createLogger(logConfiguration);
+
+const Helpers = use("Helpers");
+const config = use("Config");
 const Major = use("App/Models/Major");
 const StudentDetails = use("App/Models/StudentDetails");
 const Database = use("Database");
@@ -7,7 +31,13 @@ const Application = use("App/Models/Application");
 const Comment = use("App/Models/Comments");
 const User = use("App/Models/User");
 const helpers = use("Helpers");
+const { validate } = use("Validator");
+const appRoot = helpers.appRoot();
+const mail = use("Mail");
 const env = use("Env");
+
+const usersUtil = require(appRoot + "/app/utils/users.js");
+const coordinatorEmail = "s541910@nwmissouri.edu";
 
 class StudentController {
 

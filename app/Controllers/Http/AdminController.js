@@ -1,5 +1,34 @@
 'use strict'
 
+const Application = use("App/Models/Application");
+const Internship = use("App/Models/Internship");
+const StudentDetails = use("App/Models/StudentDetails");
+// const Major = use('App/Models/Major')
+const User = use("App/Models/User");
+const winston = require("winston");
+const logConfiguration = {
+  transports: [
+    new winston.transports.File({
+      filename: "logs/application.log",
+    }),
+  ],
+  format: winston.format.combine(
+    winston.format.timestamp({
+      format: "MMM-DD-YYYY HH:mm:ss",
+    }),
+    winston.format.printf(
+      (info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
+    )
+  ),
+};
+const logger = winston.createLogger(logConfiguration);
+
+const _ = use("lodash");
+const Database = use("Database");
+const helpers = use("Helpers");
+const appRoot = helpers.appRoot();
+const usersUtil = require(appRoot + "/app/utils/users.js");
+
 class AdminController {
 
     async getAllAdmins({ auth, request, response }) {

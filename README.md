@@ -48,4 +48,6 @@ Run the following command to run startup migrations.
 
 ```js
 adonis migration:run
+
+npm i lodash
 ```
