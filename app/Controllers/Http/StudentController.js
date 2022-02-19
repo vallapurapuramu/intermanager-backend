@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 const fs = use("fs");
 const got = use("got");
 const _ = use("lodash");
@@ -40,80 +40,79 @@ const usersUtil = require(appRoot + "/app/utils/users.js");
 const coordinatorEmail = "s541910@nwmissouri.edu";
 
 class StudentController {
+  async home({ request, response, auth }) {
+    return response.status(200).json({
+      status: 200,
+      message: "user home screen",
+    });
+  }
 
-    async home({ request, response, auth }) {
-        return response.status(200).json({
-          status: 200,
-          message: "user home screen",
-        });
+  async getAllMajors({ params, auth, request, response }) {
+    var category = params.category;
+    //const majorsList = await Major.query().where("category", category).fetch();
+    const majorsList = await Major.all();
+    if (majorsList == null) {
+      logger.error("StudentController-getAllMajors, Majors not found");
+      return response.status(404).json({
+        message: "Majors not found",
+      });
     }
-  
-    async getAllMajors({ params, auth, request, response }) {
-      var category = params.category;
-      //const majorsList = await Major.query().where("category", category).fetch();
-      const majorsList = await Major.all();
-      if (majorsList == null) {
-        logger.error("StudentController-getAllMajors, Majors not found");
-        return response.status(404).json({
-          message: "Majors not found",
-        });
+    logger.debug(
+      "StudentController-getAllMajors, Succesfully retrived majorsList"
+    );
+
+    return response.json(majorsList);
+  }
+
+  async addStudentData({ auth, request, response }) {
+    let studentData = request.post();
+    let oldData = await StudentDetails.query()
+      .where("studentId", studentData.studentId)
+      .fetch();
+
+    if (oldData.rows.length == 0) {
+      try {
+        studentData = await StudentDetails.create(studentData);
+      } catch (err) {
+        logger.error(err);
       }
+      return response.ok(studentData);
+    } else {
+      oldData = await StudentDetails.find(oldData.rows[0].id);
+      oldData = _.merge(oldData, studentData);
+      await oldData.save();
       logger.debug(
-        "StudentController-getAllMajors, Succesfully retrived majorsList"
+        "StudentController-updateStudentDetails, Succesfully updated student"
       );
-  
-      return response.json(majorsList);
+      return response.status(200).json("students successfully added");
     }
+  }
 
-    async addStudentData({ auth, request, response }) {
-      let studentData = request.post();
-      let oldData = await StudentDetails.query()
-        .where("studentId", studentData.studentId)
-        .fetch();
-  
-      if (oldData.rows.length == 0) {
-        try {
-          studentData = await StudentDetails.create(studentData);
-        } catch (err) {
-          logger.error(err);
-        }
-        return response.ok(studentData);
-      } else {
-        oldData = await StudentDetails.find(oldData.rows[0].id);
-        oldData = _.merge(oldData, studentData);
-        await oldData.save();
-        logger.debug(
-          "StudentController-updateStudentDetails, Succesfully updated student"
-        );
-        return response.status(200).json("students successfully added");
+  async addStudentData({ auth, request, response }) {
+    let studentData = request.post();
+    let oldData = await StudentDetails.query()
+      .where("studentId", studentData.studentId)
+      .fetch();
+
+    if (oldData.rows.length == 0) {
+      try {
+        studentData = await StudentDetails.create(studentData);
+      } catch (err) {
+        logger.error(err);
       }
+      return response.ok(studentData);
+    } else {
+      oldData = await StudentDetails.find(oldData.rows[0].id);
+      oldData = _.merge(oldData, studentData);
+      await oldData.save();
+      logger.debug(
+        "StudentController-updateStudentDetails, Succesfully updated student"
+      );
+      return response.status(200).json("students successfully added");
     }
+  }
 
-    async addStudentData({ auth, request, response }) {
-      let studentData = request.post();
-      let oldData = await StudentDetails.query()
-        .where("studentId", studentData.studentId)
-        .fetch();
-  
-      if (oldData.rows.length == 0) {
-        try {
-          studentData = await StudentDetails.create(studentData);
-        } catch (err) {
-          logger.error(err);
-        }
-        return response.ok(studentData);
-      } else {
-        oldData = await StudentDetails.find(oldData.rows[0].id);
-        oldData = _.merge(oldData, studentData);
-        await oldData.save();
-        logger.debug(
-          "StudentController-updateStudentDetails, Succesfully updated student"
-        );
-        return response.status(200).json("students successfully added");
-      }
-    }
-
-    async addInternshipApplication({ auth, request, response }) {
+  async addInternshipApplication({ auth, request, response }) {
     let internshipData = request.post();
     let facultyInfo = await usersUtil.getUserSearch(internshipData.facultyId);
     if (!facultyInfo) {
@@ -180,8 +179,8 @@ class StudentController {
     }
     applicationData.internshipId = internshipData.id;
     logger.debug(
-      "======================================== only intershipDetailsData id"+
-      internshipData.id
+      "======================================== only intershipDetailsData id" +
+        internshipData.id
     );
     const applicationrules = {
       applicationStatus: "required",
@@ -248,7 +247,8 @@ class StudentController {
 
       return response.json(applicationData);
     } catch (err) {
-    logger.error(err);    }
+      logger.error(err);
+    }
   }
 
   async getInternshipData({ params, auth, request, response }) {
@@ -382,33 +382,37 @@ class StudentController {
       message: "Success",
     });
   }
-  async getResume({params, auth, request, response}){
+  async getResume({ params, auth, request, response }) {
     if (auth.user.role != "faculty" && auth.user.role != "admin") {
       return response.status(401).json({
-          message: 'You don\'t have permission'
-      })
+        message: "You don't have permission",
+      });
     } else {
-      let path = process.cwd() + '\\resources\\views\\public' 
-      let documents = fs.readdirSync(path,  (err, files) => {
+      let path = process.cwd() + "\\resources\\views\\public";
+      let documents = fs.readdirSync(path, (err, files) => {
         if (err) {
           console.log(err);
           return err;
-        }else{
-          return files
+        } else {
+          return files;
         }
       });
-      try 
-      {let filename = documents.find(doc => doc.includes(params.id))
-      let file = path + '\\' + filename
-      // var filename = path.basename(file);
-      // var mimetype = mime.lookup(file);
-      response.header('Content-disposition', 'attachment; filename=' + filename);
-      response.header('Content-type', 'application/pdf');
-      response.download(file)
-      } catch(err){console.log(err)}
+      try {
+        let filename = documents.find((doc) => doc.includes(params.id));
+        let file = path + "\\" + filename;
+        // var filename = path.basename(file);
+        // var mimetype = mime.lookup(file);
+        response.header(
+          "Content-disposition",
+          "attachment; filename=" + filename
+        );
+        response.header("Content-type", "application/pdf");
+        response.download(file);
+      } catch (err) {
+        console.log(err);
+      }
     }
-
   }
 }
 
-module.exports = StudentController
+module.exports = StudentController;

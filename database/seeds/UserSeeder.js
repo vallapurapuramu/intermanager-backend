@@ -19,8 +19,6 @@ const Hash = use("Hash");
 class UserSeeder {
   async run() {
     const users = [
-      
-
       {
         id: 919603902,
         username: "s542263",
@@ -29,7 +27,7 @@ class UserSeeder {
         email: "s542263@nwmissouri.edu",
         password: null,
         role: "user",
-        isagreement : false,
+        isagreement: false,
         public: false,
       },
       {
@@ -40,7 +38,7 @@ class UserSeeder {
         email: "zhao@nwmissouri.edu",
         password: null,
         role: "faculty",
-        isagreement : true ,
+        isagreement: true,
         public: false,
       },
       {
@@ -51,10 +49,10 @@ class UserSeeder {
         email: "s541910@nwmissouri.edu",
         password: null,
         role: "admin",
-        isagreement : true ,
+        isagreement: true,
         public: false,
       },
-    ]
+    ];
     await Database.insert(users).into("users");
   }
 }
