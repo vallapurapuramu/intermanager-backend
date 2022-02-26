@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
-const Route = use('Route')
+const Route = use("Route");
 
 Route.get("/", () => {
   return { greeting: "Hello world in JSON" };
@@ -27,18 +27,38 @@ Route.get("admins", "AdminController.getAllAdmins");
 Route.get("applications", "AdminController.getAllApplications");
 Route.delete("admins/:adminId", "AdminController.deleteAdmin");
 Route.post("student/studentdata", "StudentController.addStudentData");
-Route.post("student/applicationdata","StudentController.addInternshipApplication" );
+Route.post(
+  "student/applicationdata",
+  "StudentController.addInternshipApplication"
+);
 Route.get("applications/:id", "FacultyController.getInternshipData");
 
-
-Route.get("student/applications/:studentId","StudentController.getInternshipData");
-Route.patch( "student/updateapplicationdata/:id", "StudentController.updateInternshipApplication" );
-Route.delete("student/deleteapplicationdata/:id","StudentController.deleteInternshipApplication");
-Route.get("student/personalDetails/:studentId","StudentController.getPersonalDetails" );
-Route.patch("student/updateInternshipAgreement","StudentController.updateInternshipAgreement");
-Route.patch("update-applications-status/:id","FacultyController.updateApplicationStatus");
+Route.get(
+  "student/applications/:studentId",
+  "StudentController.getInternshipData"
+);
+Route.patch(
+  "student/updateapplicationdata/:id",
+  "StudentController.updateInternshipApplication"
+);
+Route.delete(
+  "student/deleteapplicationdata/:id",
+  "StudentController.deleteInternshipApplication"
+);
+Route.get(
+  "student/personalDetails/:studentId",
+  "StudentController.getPersonalDetails"
+);
+Route.patch(
+  "student/updateInternshipAgreement",
+  "StudentController.updateInternshipAgreement"
+);
+Route.patch(
+  "update-applications-status/:id",
+  "FacultyController.updateApplicationStatus"
+);
 Route.get("student/comments/:applicationId", "FacultyController.getComments");
 Route.post("student/comments", "FacultyController.postComments");
 Route.get("verifyfaculty/:id", "FacultyController.getFaculty");
-Route.post("faculty/addFaculty/:id","FacultyController.addFaculty");
+Route.post("faculty/addFaculty/:id", "FacultyController.addFaculty");
 Route.get("application/:id", "StudentController.getResume");

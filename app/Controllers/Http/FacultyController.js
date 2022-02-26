@@ -1,4 +1,4 @@
-'use strict'
+"use strict";
 const fs = use("fs");
 const got = use("got");
 const _ = use("lodash");
@@ -40,9 +40,8 @@ const usersUtil = require(appRoot + "/app/utils/users.js");
 
 const Database = use("Database");
 
-
 class FacultyController {
-    async getInternshipData({ params, auth, request, response }) {
+  async getInternshipData({ params, auth, request, response }) {
     const applicationDetails = await Application.query()
       .with("users")
       .with("internship")
@@ -212,9 +211,6 @@ class FacultyController {
         },
       });
     } else {
-
-
-      
       // return response.status(200).json({
       //   message: "Faculty Added successfully",
       // });
@@ -223,4 +219,4 @@ class FacultyController {
   }
 }
 
-module.exports = FacultyController
+module.exports = FacultyController;
