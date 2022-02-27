@@ -64,9 +64,8 @@ class StudentController {
   }
 
   async addStudentData({ auth, request, response }) {
-    
     let studentData = request.post();
-    console.log(studentData,"dskhbfibfd");
+    console.log(studentData, "dskhbfibfd");
     let oldData = await StudentDetails.query()
       .where("studentId", studentData.studentId)
       .fetch();
@@ -88,7 +87,6 @@ class StudentController {
       return response.status(200).json("students successfully added");
     }
   }
-
 
   async addInternshipApplication({ auth, request, response }) {
     let internshipData = request.post();
