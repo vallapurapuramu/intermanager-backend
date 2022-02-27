@@ -1,6 +1,5 @@
 "use strict";
 const fs = use("fs");
-const got = use("got");
 const _ = use("lodash");
 const util = use("util");
 const winston = require("winston");
@@ -31,7 +30,7 @@ const Application = use("App/Models/Application");
 const Comment = use("App/Models/Comments");
 const User = use("App/Models/User");
 const helpers = use("Helpers");
-const { validate } = use("Validator");
+// const { validate } = use("Validator");
 const appRoot = helpers.appRoot();
 const mail = use("Mail");
 const env = use("Env");
@@ -65,7 +64,9 @@ class StudentController {
   }
 
   async addStudentData({ auth, request, response }) {
+    
     let studentData = request.post();
+    console.log(studentData,"dskhbfibfd");
     let oldData = await StudentDetails.query()
       .where("studentId", studentData.studentId)
       .fetch();
@@ -88,29 +89,6 @@ class StudentController {
     }
   }
 
-  async addStudentData({ auth, request, response }) {
-    let studentData = request.post();
-    let oldData = await StudentDetails.query()
-      .where("studentId", studentData.studentId)
-      .fetch();
-
-    if (oldData.rows.length == 0) {
-      try {
-        studentData = await StudentDetails.create(studentData);
-      } catch (err) {
-        logger.error(err);
-      }
-      return response.ok(studentData);
-    } else {
-      oldData = await StudentDetails.find(oldData.rows[0].id);
-      oldData = _.merge(oldData, studentData);
-      await oldData.save();
-      logger.debug(
-        "StudentController-updateStudentDetails, Succesfully updated student"
-      );
-      return response.status(200).json("students successfully added");
-    }
-  }
 
   async addInternshipApplication({ auth, request, response }) {
     let internshipData = request.post();
@@ -160,18 +138,18 @@ class StudentController {
       state: "required",
       addressLine1: "required",
     };
-    const validation1 = await validate(intershipDetails, internshiprules);
+    // const validation1 = await validate(intershipDetails, internshiprules);
 
-    if (validation1.fails()) {
-      return response.badRequest({
-        error: {
-          status: 401,
-          message:
-            "bad request, missing some required for internship properties",
-          fields: validation1.messages(),
-        },
-      });
-    }
+    // if (validation1.fails()) {
+    //   return response.badRequest({
+    //     error: {
+    //       status: 401,
+    //       message:
+    //         "bad request, missing some required for internship properties",
+    //       fields: validation1.messages(),
+    //     },
+    //   });
+    // }
     try {
       internshipData = await Internship.create(intershipDetails);
     } catch (err) {
@@ -193,20 +171,20 @@ class StudentController {
       endDate: "required",
       internshipId: "required",
     };
-    const validation2 = await validate(applicationData, applicationrules);
-    if (validation2.fails()) {
-      if (internshipData.id) {
-        await Internship.query().where("id", internshipData.id).delete();
-      }
-      return response.badRequest({
-        error: {
-          status: 401,
-          message:
-            "bad request, missing some required for application properties",
-          fields: validation2.messages(),
-        },
-      });
-    }
+    // const validation2 = await validate(applicationData, applicationrules);
+    // if (validation2.fails()) {
+    //   if (internshipData.id) {
+    //     await Internship.query().where("id", internshipData.id).delete();
+    //   }
+    //   return response.badRequest({
+    //     error: {
+    //       status: 401,
+    //       message:
+    //         "bad request, missing some required for application properties",
+    //       fields: validation2.messages(),
+    //     },
+    //   });
+    // }
     try {
       applicationData = await Application.create(applicationData);
       var id = applicationData.id + "";

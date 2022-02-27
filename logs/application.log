@@ -1,0 +1,11 @@
+error: Feb-26-2022 18:17:31: console is not a function
+error: Feb-26-2022 18:17:35: console is not a function
+error: Feb-26-2022 18:17:36: console is not a function
+error: Feb-26-2022 18:28:23: utils-users, getUserFromCanvas fucntion has error: TypeError [ERR_INVALID_URL]: Invalid URL: undefined/api/v1/accounts/1/users?search_term=2&access_token=null
+error: Feb-26-2022 19:53:46: utils-users, getUserFromCanvas fucntion has error: TypeError [ERR_INVALID_URL]: Invalid URL: undefined/api/v1/accounts/1/users?search_term=2&access_token=null
+error: Feb-26-2022 19:56:18: utils-users, getUserFromCanvas fucntion has error: TypeError [ERR_INVALID_URL]: Invalid URL: undefined/api/v1/accounts/1/users?search_term=2&access_token=null
+error: Feb-26-2022 19:58:14: utils-users, getUserFromCanvas fucntion has error: TypeError [ERR_INVALID_URL]: Invalid URL: undefined/api/v1/accounts/1/users?search_term=2&access_token=null
+error: Feb-26-2022 19:58:51: utils-users, getUserFromCanvas fucntion has error: TypeError [ERR_INVALID_URL]: Invalid URL: undefined/api/v1/accounts/1/users?search_term=2&access_token=null
+error: Feb-26-2022 19:58:51: mail.send is not a function
+error: Feb-26-2022 20:50:19: utils-users, getUserFromCanvas fucntion has error: TypeError [ERR_INVALID_URL]: Invalid URL: undefined/api/v1/accounts/1/users?search_term=4&access_token=null
+error: Feb-26-2022 20:50:19: mail.send is not a function

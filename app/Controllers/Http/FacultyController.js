@@ -193,7 +193,9 @@ class FacultyController {
 
   async getFaculty({ auth, request, params, response }) {
     try {
-      let faculty = await User.query().where("id", params.id).fetch();
+      console.log(params,"akhvahbdad");
+      let faculty = await User.query().where("email", params.id).fetch();
+      console.log(faculty,"asjhvdjhd");
       return response.json(faculty);
     } catch (error) {
       logger.error(error);
