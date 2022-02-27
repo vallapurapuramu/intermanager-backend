@@ -1,17 +1,14 @@
 "use strict";
 
-
 const { validate } = use("Validator");
 const env = use("Env");
 const adminToken = env.get("ADMIN_TOKEN");
 const User = use("App/Models/User");
 const crypto = require("crypto");
 
-
 const Securitykey = "82f2ceed4c503896c8a291e560bd4325";
 const initVector = "sinasinasisinaaa";
 const algorithm = "aes-256-cbc";
-
 
 class AuthController {
   async logout({ response }) {

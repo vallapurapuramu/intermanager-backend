@@ -12,8 +12,6 @@ const env = use("Env");
 const Database = use("Database");
 
 class FacultyController {
-
-  
   async getInternshipData({ params, auth, request, response }) {
     const applicationDetails = await Application.query()
       .with("users")
@@ -150,7 +148,6 @@ class FacultyController {
       logger.error(error);
     }
   }
- 
 }
 
 module.exports = FacultyController;

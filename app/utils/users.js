@@ -9,8 +9,6 @@ const canvasBaseUrl = config.get("app.canvas.globalhost");
 const User = use("App/Models/User");
 
 const getUserFromCanvas = async (useremailId) => {
- 
-
   useremailId.includes("@") ? true : (useremailId += "@nwmissouri.edu");
   try {
     let user = await got(
