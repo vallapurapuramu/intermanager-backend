@@ -2,26 +2,7 @@
 const fs = use("fs");
 const _ = use("lodash");
 const util = use("util");
-const winston = require("winston");
-const logConfiguration = {
-  transports: [
-    new winston.transports.File({
-      filename: "logs/application.log",
-    }),
-  ],
-  format: winston.format.combine(
-    winston.format.timestamp({
-      format: "MMM-DD-YYYY HH:mm:ss",
-    }),
-    winston.format.printf(
-      (info) => `${info.level}: ${[info.timestamp]}: ${info.message}`
-    )
-  ),
-};
-const logger = winston.createLogger(logConfiguration);
-
 const Helpers = use("Helpers");
-const config = use("Config");
 const Major = use("App/Models/Major");
 const StudentDetails = use("App/Models/StudentDetails");
 const Database = use("Database");
@@ -29,9 +10,7 @@ const Internship = use("App/Models/Internship");
 const Application = use("App/Models/Application");
 const Comment = use("App/Models/Comments");
 const User = use("App/Models/User");
-const helpers = use("Helpers");
-// const { validate } = use("Validator");
-const appRoot = helpers.appRoot();
+const appRoot = Helpers.appRoot();
 const mail = use("Mail");
 const env = use("Env");
 
@@ -48,7 +27,6 @@ class StudentController {
 
   async getAllMajors({ params, auth, request, response }) {
     var category = params.category;
-    //const majorsList = await Major.query().where("category", category).fetch();
     const majorsList = await Major.all();
     if (majorsList == null) {
       logger.error("StudentController-getAllMajors, Majors not found");
@@ -128,26 +106,6 @@ class StudentController {
     intershipDetails.city = internshipData.city;
     intershipDetails.state = internshipData.state;
     intershipDetails.zipCode = internshipData.zipCode;
-    const internshiprules = {
-      email: "required",
-      employerContact: "required",
-      employerName: "required",
-      city: "required",
-      state: "required",
-      addressLine1: "required",
-    };
-    // const validation1 = await validate(intershipDetails, internshiprules);
-
-    // if (validation1.fails()) {
-    //   return response.badRequest({
-    //     error: {
-    //       status: 401,
-    //       message:
-    //         "bad request, missing some required for internship properties",
-    //       fields: validation1.messages(),
-    //     },
-    //   });
-    // }
     try {
       internshipData = await Internship.create(intershipDetails);
     } catch (err) {
@@ -158,31 +116,7 @@ class StudentController {
       "======================================== only intershipDetailsData id" +
         internshipData.id
     );
-    const applicationrules = {
-      applicationStatus: "required",
-      approvedBy: "required",
-      studentId: "required",
-      facultyId: "required",
-      createdBy: "required",
-      updatedBy: "required",
-      startDate: "required",
-      endDate: "required",
-      internshipId: "required",
-    };
-    // const validation2 = await validate(applicationData, applicationrules);
-    // if (validation2.fails()) {
-    //   if (internshipData.id) {
-    //     await Internship.query().where("id", internshipData.id).delete();
-    //   }
-    //   return response.badRequest({
-    //     error: {
-    //       status: 401,
-    //       message:
-    //         "bad request, missing some required for application properties",
-    //       fields: validation2.messages(),
-    //     },
-    //   });
-    // }
+   
     try {
       applicationData = await Application.create(applicationData);
       var id = applicationData.id + "";
@@ -352,7 +286,6 @@ class StudentController {
         message: "Student not found",
       });
     }
-    user.isagreement = 1;
     user.save();
     return response.status(200).json({
       message: "Success",

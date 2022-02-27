@@ -14,7 +14,6 @@ class UserSchema extends Schema {
       table.string("password", 60);
       table.string("role", 10).notNullable();
       table.boolean("public").notNullable();
-      table.boolean("isagreement").notNullable();
       table.timestamps();
     });
   }

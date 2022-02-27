@@ -1,20 +1,18 @@
 "use strict";
 
-/** @typedef {import('@adonisjs/framework/src/Request')} Request */
-/** @typedef {import('@adonisjs/framework/src/Response')} Response */
+
 const { validate } = use("Validator");
-const _ = use("lodash");
-const async = use("async");
 const env = use("Env");
 const adminToken = env.get("ADMIN_TOKEN");
 const User = use("App/Models/User");
 const crypto = require("crypto");
-// const initVector = env.get("INIT_VECTOR");
-// const Securitykey = env.get("SECRET_KEY");
+
 
 const Securitykey = "82f2ceed4c503896c8a291e560bd4325";
 const initVector = "sinasinasisinaaa";
 const algorithm = "aes-256-cbc";
+
+
 class AuthController {
   async logout({ response }) {
     logger.debug("AuthController-logout function executed successfully");
@@ -111,7 +109,6 @@ class AuthController {
       .where("email", userinfo.email)
       .where("password", userinfo.password)
       .fetch();
-    //console.log("user details ", user,auth);
     if (user.rows.length > 0) {
       const user = await User.findBy({ email: userinfo.email });
       console.log(user, "user");

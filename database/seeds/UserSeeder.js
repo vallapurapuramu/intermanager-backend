@@ -27,7 +27,6 @@ class UserSeeder {
         email: "s542263@nwmissouri.edu",
         password: null,
         role: "user",
-        isagreement: false,
         public: false,
       },
       {
@@ -38,7 +37,6 @@ class UserSeeder {
         email: "zhao@nwmissouri.edu",
         password: null,
         role: "faculty",
-        isagreement: true,
         public: false,
       },
       {
@@ -49,7 +47,6 @@ class UserSeeder {
         email: "s541910@nwmissouri.edu",
         password: null,
         role: "admin",
-        isagreement: true,
         public: false,
       },
     ];
