@@ -1,6 +1,5 @@
 "use strict";
 
-
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 const { validate } = use("Validator");
@@ -14,11 +13,10 @@ const crypto = require("crypto");
 // const Securitykey = env.get("SECRET_KEY");
 
 const Securitykey = "82f2ceed4c503896c8a291e560bd4325";
- const initVector = "sinasinasisinaaa";
+const initVector = "sinasinasisinaaa";
 const algorithm = "aes-256-cbc";
 class AuthController {
-
-async logout({ response }) {
+  async logout({ response }) {
     logger.debug("AuthController-logout function executed successfully");
     return response.status(200).json({
       status: 200,
@@ -26,57 +24,54 @@ async logout({ response }) {
     });
   }
 
-// async register({ request, response, auth }) {
+  // async register({ request, response, auth }) {
 
-// const data = request.post();
-//     try {
-//               const rules = {
-//                 email: "required",
-//                 password: "required",
-//                 username: "required",
-//             };
-//             const validation = await validate(request.post(), rules);
+  // const data = request.post();
+  //     try {
+  //               const rules = {
+  //                 email: "required",
+  //                 password: "required",
+  //                 username: "required",
+  //             };
+  //             const validation = await validate(request.post(), rules);
 
-//               if (validation.fails()) {
-//                   return response.badRequest({
-//                     error: {
-//                       status: 401,
-//                       message:
-//                         "bad request, missing some required for register properties",
-//                       fields: validation.messages(),
-//                     },
-//                   });
-              
-//             }
+  //               if (validation.fails()) {
+  //                   return response.badRequest({
+  //                     error: {
+  //                       status: 401,
+  //                       message:
+  //                         "bad request, missing some required for register properties",
+  //                       fields: validation.messages(),
+  //                     },
+  //                   });
 
-//               await User.create({
-//               email: data.email,
-//               password: data.password,
-//               username: data.username,
-//               role: "user",
-//             });
-//             return response.status(200).json({
-//               message: "Successfully registeredd in the data",
-//             });
-//     } catch (err) {
-//       return response.status(500).json({
-//         message: err,
-//       });
-//     }
+  //             }
 
+  //               await User.create({
+  //               email: data.email,
+  //               password: data.password,
+  //               username: data.username,
+  //               role: "user",
+  //             });
+  //             return response.status(200).json({
+  //               message: "Successfully registeredd in the data",
+  //             });
+  //     } catch (err) {
+  //       return response.status(500).json({
+  //         message: err,
+  //       });
+  //     }
 
-// }
-
+  // }
 
   async login({ request, response, auth }) {
     const userinfo = request.only(["email", "password"]);
-    //const userinfo = request.post();   
-const rules = {
+    //const userinfo = request.post();
+    const rules = {
       email: "required",
       password: "required",
     };
-    
-  
+
     // const validation = await validate(userinfo, rules);
 
     // if (validation.fails()) {
@@ -89,9 +84,7 @@ const rules = {
     //   });
     // }
 
-
-
-if (!userinfo.email || !userinfo.password) {
+    if (!userinfo.email || !userinfo.password) {
       console.error(
         "AuthController-login, missing required attributes: email/password"
       );
@@ -108,22 +101,22 @@ if (!userinfo.email || !userinfo.password) {
       Securitykey,
       initVector
     );
-   
+
     let decryptedData = decipher.update(userinfo.password, "base64", "utf-8");
 
     decryptedData += decipher.final("utf8");
 
-   userinfo.password = decryptedData;
-   const user = await User.query()
+    userinfo.password = decryptedData;
+    const user = await User.query()
       .where("email", userinfo.email)
       .where("password", userinfo.password)
       .fetch();
-//console.log("user details ", user,auth);
+    //console.log("user details ", user,auth);
     if (user.rows.length > 0) {
       const user = await User.findBy({ email: userinfo.email });
-      console.log(user,"user");
+      console.log(user, "user");
       let jwtToken = await auth.generate(user);
-      
+
       return response.status(200).json({
         message: "authenticated",
         data: user,
@@ -135,6 +128,6 @@ if (!userinfo.email || !userinfo.password) {
       });
     }
   }
-};
+}
 
 module.exports = AuthController;
