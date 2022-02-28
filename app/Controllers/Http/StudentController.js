@@ -29,12 +29,12 @@ class StudentController {
     var category = params.category;
     const majorsList = await Major.all();
     if (majorsList == null) {
-      logger.error("StudentController-getAllMajors, Majors not found");
+      console.error("StudentController-getAllMajors, Majors not found");
       return response.status(404).json({
         message: "Majors not found",
       });
     }
-    logger.debug(
+    console.debug(
       "StudentController-getAllMajors, Succesfully retrived majorsList"
     );
 
@@ -52,16 +52,14 @@ class StudentController {
       try {
         studentData = await StudentDetails.create(studentData);
       } catch (err) {
-        logger.error(err);
+        console.error(err);
       }
       return response.ok(studentData);
     } else {
       oldData = await StudentDetails.find(oldData.rows[0].id);
       oldData = _.merge(oldData, studentData);
       await oldData.save();
-      logger.debug(
-        "StudentController-updateStudentDetails, Succesfully updated student"
-      );
+     
       return response.status(200).json("students successfully added");
     }
   }
@@ -109,13 +107,10 @@ class StudentController {
     try {
       internshipData = await Internship.create(intershipDetails);
     } catch (err) {
-      logger.error(err);
+      console.error(err);
     }
     applicationData.internshipId = internshipData.id;
-    logger.debug(
-      "======================================== only intershipDetailsData id" +
-        internshipData.id
-    );
+   
    
     try {
       applicationData = await Application.create(applicationData);
@@ -157,7 +152,7 @@ class StudentController {
 
       return response.json(applicationData);
     } catch (err) {
-      logger.error(err);
+      console.error(err);
     }
   }
 
@@ -169,7 +164,7 @@ class StudentController {
       .with("student_details")
       .fetch();
     if (applicationDetails == null) {
-      logger.error("StudentController-getAllMajors, Majors not found");
+      console.error("StudentController-getAllMajors, Majors not found");
       return response.status(404).json({
         message: "Majors not found",
       });
@@ -183,9 +178,7 @@ class StudentController {
           ".pdf";
       }
     }
-    logger.debug(
-      "StudentController-getAllMajors, Succesfully retrived majorsList"
-    );
+  
     return response.json(applicationDetails);
   }
 
@@ -197,7 +190,7 @@ class StudentController {
       .with("student_details")
       .fetch();
     if (applicationDetails == null) {
-      logger.error("StudentController-getAllMajors, Majors not found");
+      console.error("StudentController-getAllMajors, Majors not found");
       return response.status(404).json({
         message: "Majors not found",
       });
@@ -211,9 +204,7 @@ class StudentController {
           ".pdf";
       }
     }
-    logger.debug(
-      "StudentController-getAllMajors, Succesfully retrived majorsList"
-    );
+    
     return response.json(applicationDetails);
   }
 
@@ -265,15 +256,13 @@ class StudentController {
       .fetch();
 
     if (studentDetails == null) {
-      logger.error("StudentController-getAllMajors, Majors not found");
+      console.error("StudentController-getAllMajors, Majors not found");
       return response.status(404).json({
         message: "Majors not found",
       });
     }
 
-    logger.debug(
-      "StudentController-getAllMajors, Succesfully retrived majorsList"
-    );
+    
     return response.json(studentDetails);
   }
   async updateInternshipAgreement({ auth, request, response }) {
@@ -281,7 +270,7 @@ class StudentController {
     var user = await User.find(userDetails.studentId);
 
     if (!user) {
-      logger.error("User not found");
+      console.error("User not found");
       return response.status(404).json({
         message: "Student not found",
       });

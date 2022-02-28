@@ -15,7 +15,6 @@ const algorithm = "aes-256-cbc";
 
 class AuthController {
   async logout({ response }) {
-    logger.debug("AuthController-logout function executed successfully");
     return response.status(200).json({
       status: 200,
       message: "logout successfull",

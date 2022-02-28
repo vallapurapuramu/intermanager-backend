@@ -110,7 +110,6 @@ class FacultyController {
 
     let applicationData = await Application.find(Data.applicationId);
     if (!applicationData) {
-      logger.error("updateApplicationDetils, Application not found");
       return response.status(404).json({
         error: {
           status: 404,
@@ -147,7 +146,7 @@ class FacultyController {
       let faculty = await User.query().where("email", params.id).fetch();
       return response.json(faculty);
     } catch (error) {
-      logger.error(error);
+      console.error(error);
     }
   }
  
