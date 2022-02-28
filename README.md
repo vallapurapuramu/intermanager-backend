@@ -51,6 +51,7 @@ adonis migration:run
 
 npm i lodash
 ```
+```
 HOST=127.0.0.1
 PORT=3333
 NODE_ENV=development
@@ -73,3 +74,4 @@ MAIL_USERNAME=ramuoffers@gmail.com
 MAIL_PASSWORD=ramuoffers@3773
 SECRET_KEY =82f2ceed4c503896c8a291e560bd4325
 INIT_VECTOR = sinasinasisinaaa
+```

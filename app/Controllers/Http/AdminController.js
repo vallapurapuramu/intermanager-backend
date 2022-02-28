@@ -5,7 +5,6 @@ const StudentDetails = use("App/Models/StudentDetails");
 const User = use("App/Models/User");
 const Database = use("Database");
 
-
 class AdminController {
   async getAllAdmins({ auth, request, response }) {
     const adminsList = await User.query().where("role", "=", "admin").fetch();
@@ -14,7 +13,7 @@ class AdminController {
       return response.status(404).json({
         message: "Admins not found",
       });
-    } 
+    }
     return response.json(adminsList);
   }
 

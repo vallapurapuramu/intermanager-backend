@@ -111,7 +111,7 @@ class StudentController {
     }
     applicationData.internshipId = internshipData.id;
    
-   
+
     try {
       applicationData = await Application.create(applicationData);
       var id = applicationData.id + "";
