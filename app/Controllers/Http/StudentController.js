@@ -59,7 +59,7 @@ class StudentController {
       oldData = await StudentDetails.find(oldData.rows[0].id);
       oldData = _.merge(oldData, studentData);
       await oldData.save();
-     
+
       return response.status(200).json("students successfully added");
     }
   }
@@ -110,7 +110,6 @@ class StudentController {
       console.error(err);
     }
     applicationData.internshipId = internshipData.id;
-   
 
     try {
       applicationData = await Application.create(applicationData);
@@ -178,7 +177,7 @@ class StudentController {
           ".pdf";
       }
     }
-  
+
     return response.json(applicationDetails);
   }
 
@@ -204,7 +203,7 @@ class StudentController {
           ".pdf";
       }
     }
-    
+
     return response.json(applicationDetails);
   }
 
@@ -262,7 +261,6 @@ class StudentController {
       });
     }
 
-    
     return response.json(studentDetails);
   }
   async updateInternshipAgreement({ auth, request, response }) {
