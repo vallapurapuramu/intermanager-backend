@@ -103,7 +103,7 @@ class AuthController {
 
     console.log(userinfo, "here is user details ");
     const user = await User.query().fetch();
-    console.log(user,user.rows,"skfjgdskjfhgduhfgiudgf");
+    console.log(user, user.rows, "skfjgdskjfhgduhfgiudgf");
     if (user.rows.length > 0) {
       const user = await User.findBy({ email: userinfo.email });
       console.log(user, "user");
