@@ -108,11 +108,12 @@ class AuthController {
       .where("email", userinfo.email)
       .where("password", userinfo.password)
       .fetch();
+    console.log(user,user.rows,"skfjgdskjfhgduhfgiudgf");
     if (user.rows.length > 0) {
       const user = await User.findBy({ email: userinfo.email });
       console.log(user, "user");
       let jwtToken = await auth.generate(user);
-
+       
       return response.status(200).json({
         message: "authenticated",
         data: user,
