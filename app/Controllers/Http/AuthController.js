@@ -1,6 +1,5 @@
 "use strict";
 
-const { validate } = use("Validator");
 const env = use("Env");
 const adminToken = env.get("ADMIN_TOKEN");
 const User = use("App/Models/User");
