@@ -109,7 +109,7 @@ class AuthController {
       const user = await User.findBy({ email: userinfo.email });
       console.log(user, "user");
       let jwtToken = await auth.generate(user);
-       
+
       return response.status(200).json({
         message: "authenticated",
         data: user,
