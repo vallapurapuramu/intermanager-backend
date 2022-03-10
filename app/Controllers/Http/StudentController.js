@@ -11,7 +11,7 @@ const Application = use("App/Models/Application");
 const Comment = use("App/Models/Comments");
 const User = use("App/Models/User");
 const appRoot = Helpers.appRoot();
-const mail = use("Mail");
+// const mail = use("Mail");
 const env = use("Env");
 
 const usersUtil = require(appRoot + "/app/utils/users.js");
@@ -132,22 +132,22 @@ class StudentController {
         return profilePic.error();
       }
 
-      await mail.send(
-        `confirmation.edge`,
-        {
-          firstname: auth.user.firstname,
-          lastname: auth.user.lastname,
-          applicationId: id,
-          status: applicationData.applicationStatus,
-        },
-        (message) => {
-          message
-            .to(auth.user.email)
-            .cc(coordinatorEmail)
-            .from(env.get("MAIL_USERNAME"))
-            .subject("Alert! Intership aplication Registartion");
-        }
-      );
+      // await mail.send(
+      //   `confirmation.edge`,
+      //   {
+      //     firstname: auth.user.firstname,
+      //     lastname: auth.user.lastname,
+      //     applicationId: id,
+      //     status: applicationData.applicationStatus,
+      //   },
+      //   (message) => {
+      //     message
+      //       .to(auth.user.email)
+      //       .cc(coordinatorEmail)
+      //       .from(env.get("MAIL_USERNAME"))
+      //       .subject("Alert! Intership aplication Registartion");
+      //   }
+      // );
 
       return response.json(applicationData);
     } catch (err) {

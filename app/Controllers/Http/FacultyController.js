@@ -2,7 +2,7 @@
 const _ = use("lodash");
 const Major = use("App/Models/Major");
 const StudentDetails = use("App/Models/StudentDetails");
-const mail = use("Mail");
+// const mail = use("Mail");
 const Internship = use("App/Models/Internship");
 const Application = use("App/Models/Application");
 const User = use("App/Models/User");
@@ -72,21 +72,21 @@ class FacultyController {
     let commentres = await Comments.create(commentsData);
     let semail = await Users.find(applicationData.studentId);
 
-    await mail.send(
-      `aboutcomments.edge`,
-      {
-        firstname: auth.user.firstname,
-        lastname: auth.user.lastname,
-        applicationId: applicationData.applicationreferenceId,
-        status: applicationData.applicationStatus,
-      },
-      (message) => {
-        message
-          .to(semail.email)
-          .from(env.get("MAIL_USERNAME"))
-          .subject("Alert! Intership aplication Updating comments");
-      }
-    );
+    // await mail.send(
+    //   `aboutcomments.edge`,
+    //   {
+    //     firstname: auth.user.firstname,
+    //     lastname: auth.user.lastname,
+    //     applicationId: applicationData.applicationreferenceId,
+    //     status: applicationData.applicationStatus,
+    //   },
+    //   (message) => {
+    //     message
+    //       .to(semail.email)
+    //       .from(env.get("MAIL_USERNAME"))
+    //       .subject("Alert! Intership aplication Updating comments");
+    //   }
+    // );
     return commentres;
   }
 
@@ -121,21 +121,21 @@ class FacultyController {
     let commentres = await Comments.create(commentsData);
     let semail = await Users.find(applicationData.studentId);
 
-    await mail.send(
-      `aboutcomments.edge`,
-      {
-        firstname: auth.user.firstname,
-        lastname: auth.user.lastname,
-        applicationId: applicationData.applicationreferenceId,
-        status: applicationData.applicationStatus,
-      },
-      (message) => {
-        message
-          .to(semail.email)
-          .from(env.get("MAIL_USERNAME"))
-          .subject("Alert! Intership aplication Updating comments");
-      }
-    );
+    // await mail.send(
+    //   `aboutcomments.edge`,
+    //   {
+    //     firstname: auth.user.firstname,
+    //     lastname: auth.user.lastname,
+    //     applicationId: applicationData.applicationreferenceId,
+    //     status: applicationData.applicationStatus,
+    //   },
+    //   (message) => {
+    //     message
+    //       .to(semail.email)
+    //       .from(env.get("MAIL_USERNAME"))
+    //       .subject("Alert! Intership aplication Updating comments");
+    //   }
+    // );
     return commentres;
   }
 
