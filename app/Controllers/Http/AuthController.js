@@ -98,8 +98,12 @@ class AuthController {
     let decryptedData = decipher.update(userinfo.password, "base64", "utf-8");
 
     decryptedData += decipher.final("utf8");
-
+  
     userinfo.password = decryptedData;
+
+
+
+    console.log(userinfo,"here is user details ");
     const user = await User.query()
       .where("email", userinfo.email)
       .where("password", userinfo.password)
