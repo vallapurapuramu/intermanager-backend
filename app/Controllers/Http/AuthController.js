@@ -101,14 +101,15 @@ class AuthController {
 
     userinfo.password = decryptedData;
 
-    console.log(userinfo, "here is user details ");
-    const user = await User.query().fetch();
-    console.log(user, user.rows, "skfjgdskjfhgduhfgiudgf");
+    const user = await User.query()
+      .where("email", userinfo.email)
+      .where("password", userinfo.password)
+      .fetch();
     if (user.rows.length > 0) {
       const user = await User.findBy({ email: userinfo.email });
       console.log(user, "user");
       let jwtToken = await auth.generate(user);
-
+       
       return response.status(200).json({
         message: "authenticated",
         data: user,
