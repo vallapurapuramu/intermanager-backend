@@ -24,7 +24,6 @@ Route.get("/", () => {
 });
 
 Route.group(() => {
-   
   Route.post("login", "AuthController.login");
   Route.get("logout", "AuthController.logout");
   Route.post("register", "AuthController.userregister");
