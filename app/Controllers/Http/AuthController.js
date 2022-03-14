@@ -17,33 +17,32 @@ class AuthController {
     });
   }
 
-   async userregister({ request, response, auth }) {
-   const data = request.post();
-       try {
-                 const rules = {
-                   email: "required",
-                   password: "required",
-                   username: "required",
-                   firstname:"required",
-                   lastname:"required"
-              };
-                await User.create({
-                email: data.email,
-                password: data.password,
-                username: data.email,
-                firstname:data.firstname,
-                lastname:data.lastname,
-                role: "user"
-              });
-              return response.status(200).json({
-                message: "Successfully registered",
-              });
-      } catch (err) {
-        return response.status(500).json({
-          message: err,
-        });
-      }
-
+  async userregister({ request, response, auth }) {
+    const data = request.post();
+    try {
+      const rules = {
+        email: "required",
+        password: "required",
+        username: "required",
+        firstname: "required",
+        lastname: "required",
+      };
+      await User.create({
+        email: data.email,
+        password: data.password,
+        username: data.email,
+        firstname: data.firstname,
+        lastname: data.lastname,
+        role: "user",
+      });
+      return response.status(200).json({
+        message: "Successfully registered",
+      });
+    } catch (err) {
+      return response.status(500).json({
+        message: err,
+      });
+    }
   }
 
   async login({ request, response, auth }) {
