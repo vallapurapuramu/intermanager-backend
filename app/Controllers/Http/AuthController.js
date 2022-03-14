@@ -17,45 +17,34 @@ class AuthController {
     });
   }
 
-  // async register({ request, response, auth }) {
+   async userregister({ request, response, auth }) {
+   const data = request.post();
+       try {
+                 const rules = {
+                   email: "required",
+                   password: "required",
+                   username: "required",
+                   firstname:"required",
+                   lastname:"required"
+              };
+                await User.create({
+                email: data.email,
+                password: data.password,
+                username: data.email,
+                firstname:data.firstname,
+                lastname:data.lastname,
+                role: "user"
+              });
+              return response.status(200).json({
+                message: "Successfully registered",
+              });
+      } catch (err) {
+        return response.status(500).json({
+          message: err,
+        });
+      }
 
-  // const data = request.post();
-  //     try {
-  //               const rules = {
-  //                 email: "required",
-  //                 password: "required",
-  //                 username: "required",
-  //             };
-  //             const validation = await validate(request.post(), rules);
-
-  //               if (validation.fails()) {
-  //                   return response.badRequest({
-  //                     error: {
-  //                       status: 401,
-  //                       message:
-  //                         "bad request, missing some required for register properties",
-  //                       fields: validation.messages(),
-  //                     },
-  //                   });
-
-  //             }
-
-  //               await User.create({
-  //               email: data.email,
-  //               password: data.password,
-  //               username: data.username,
-  //               role: "user",
-  //             });
-  //             return response.status(200).json({
-  //               message: "Successfully registeredd in the data",
-  //             });
-  //     } catch (err) {
-  //       return response.status(500).json({
-  //         message: err,
-  //       });
-  //     }
-
-  // }
+  }
 
   async login({ request, response, auth }) {
     const userinfo = request.only(["email", "password"]);
@@ -64,19 +53,6 @@ class AuthController {
       email: "required",
       password: "required",
     };
-
-    // const validation = await validate(userinfo, rules);
-
-    // if (validation.fails()) {
-    //   return response.badRequest({
-    //     error: {
-    //       status: 401,
-    //       message: "bad request, missing some required for connectcompony",
-    //       fields: validation.messages(),
-    //     },
-    //   });
-    // }
-
     if (!userinfo.email || !userinfo.password) {
       console.error(
         "AuthController-login, missing required attributes: email/password"
@@ -95,11 +71,13 @@ class AuthController {
       initVector
     );
 
-    let decryptedData = decipher.update(userinfo.password, "base64", "utf-8");
+    // let decryptedData = decipher.update(userinfo.password, "base64", "utf-8");
 
-    decryptedData += decipher.final("utf8");
+    // decryptedData += decipher.final("utf8");
 
-    userinfo.password = decryptedData;
+    // userinfo.password = decryptedData;
+
+    // console.log("hbfhaeffa",userinfo.password);
 
     const user = await User.query()
       .where("email", userinfo.email)
