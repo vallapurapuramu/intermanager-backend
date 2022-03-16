@@ -3,7 +3,7 @@ const env = use("Env");
 const adminToken = env.get("ADMIN_TOKEN");
 const User = use("App/Models/User");
 const crypto = require("crypto");
-const Encryption = use('Encryption');
+const Encryption = use("Encryption");
 const Securitykey = "82f2ceed4c503896c8a291e560bd4325";
 const initVector = "sinasinasisinaaa";
 const algorithm = "aes-256-cbc";
@@ -18,7 +18,7 @@ class AuthController {
 
   async userregister({ request, response, auth }) {
     const data = request.post();
-    console.log("khfba",data);
+    console.log("khfba", data);
     try {
       const rules = {
         email: "required",
@@ -26,37 +26,32 @@ class AuthController {
         username: "required",
         firstname: "required",
         lastname: "required",
-        password:"required"
+        password: "required",
       };
 
-     
-    //  const cipher = crypto.AES.encrypt(data.password, CryptoJS.enc.Utf8.parse(Securitykey), {
-    //    initVector: crypto.enc.Utf8.parse(initVector),
-    //     mode: crypto.mode.CBC
-    //   });
+      //  const cipher = crypto.AES.encrypt(data.password, CryptoJS.enc.Utf8.parse(Securitykey), {
+      //    initVector: crypto.enc.Utf8.parse(initVector),
+      //     mode: crypto.mode.CBC
+      //   });
 
+      // const cipher = crypto.createCipheriv(
+      //   algorithm,
+      //   Securitykey,
+      //   initVector
+      // );
 
-    // const cipher = crypto.createCipheriv(
-    //   algorithm,
-    //   Securitykey,
-    //   initVector
-    // );
+      // mystr += mykey.final('hex');
 
+      // let encryptedData = cipher.update(data.password, "base64", "utf-8");
 
-    
-// mystr += mykey.final('hex');
+      // var mystr = encryptedData.update('abc', 'utf8', 'hex')
 
+      // encryptedData += cipher.final("utf8");
 
-    // let encryptedData = cipher.update(data.password, "base64", "utf-8");
+      // //data.password = encryptedData.toString();
 
-    // var mystr = encryptedData.update('abc', 'utf8', 'hex')
+      //  data.password = encryptedData.toString();
 
-    // encryptedData += cipher.final("utf8");
-
-    // //data.password = encryptedData.toString();
-
-    //  data.password = encryptedData.toString();
-     
       await User.create({
         email: data.email,
         password: data.password,
@@ -105,7 +100,6 @@ class AuthController {
     decryptedData += decipher.final("utf8");
 
     userinfo.password = decryptedData;
-
 
     const user = await User.query()
       .where("email", userinfo.email)
