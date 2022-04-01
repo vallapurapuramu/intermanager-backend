@@ -66,12 +66,6 @@ DB_PASSWORD=
 DB_DATABASE=gdp_intermanager
 SESSION_DRIVER=cookie
 HASH_DRIVER=bcrypt
-MAIL_CONNECTION=smtp
-SMTP_PORT=587
-SMTP_HOST=smtp.gmail.com
-SMTP_HOST=smtp.office365.com
-MAIL_USERNAME=ramuoffers@gmail.com
-MAIL_PASSWORD=ramuoffers@3773
 SECRET_KEY =82f2ceed4c503896c8a291e560bd4325
 INIT_VECTOR = sinasinasisinaaa
 ```
