@@ -249,7 +249,7 @@ class StudentController {
     }
   }
 
- /**
+  /**
    * Post application Info
    */
   async updateInternshipApplication({ auth, request, response, params }) {
@@ -316,8 +316,7 @@ class StudentController {
     try {
       await intershipDetails.save();
     } catch (err) {
-console.error(err);
-
+      console.error(err);
     }
 
     try {
@@ -330,7 +329,6 @@ console.error(err);
         allowedExtensions: ["pdf"],
       });
 
-      
       await profilePic.move(Helpers.viewsPath("public/"), {
         name: applicationData.studentId + "_" + id + ".pdf",
         overwrite: true,
@@ -340,21 +338,13 @@ console.error(err);
         return profilePic.error();
       }
 
-     
-
       return response.json(applicationData);
     } catch (err) {
-console.error(err)    }
+      console.error(err);
+    }
 
     // const savepoint = await trx.transaction();
   }
-
-
-
-
-
-
-
 
   async getPersonalDetails({ params, auth, request, response }) {
     const studentDetails = await User.query()
